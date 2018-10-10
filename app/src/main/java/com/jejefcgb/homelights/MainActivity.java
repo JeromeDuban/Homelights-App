@@ -1,8 +1,12 @@
 package com.jejefcgb.homelights;
 
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
@@ -18,16 +22,60 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList list;
+    private ArrayList<Server> list;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private final int NB_COLUMNS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        mRecyclerView = findViewById(R.id.my_recycler_view); //TODO : to bind
+        mRecyclerView.addItemDecoration(
+                new GridSpacingItemDecoration(
+                        NB_COLUMNS,
+                        getResources().getDimensionPixelSize(R.dimen.default_margin),
+                        true,
+                        0));
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new GridLayoutManager(this,NB_COLUMNS);
+
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        setData();
+
+
+        mAdapter = new MyAdapter(list);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    @OnClick(R.id.home_color_picker)
+    private void setData() {
+        // specify an adapter (see also next example)
+        list = new ArrayList<>();
+
+        Server meubleTv = new Server();
+        meubleTv.setName("Meuble TV");
+        meubleTv.setIcon(R.mipmap.ic_object_tv);
+        list.add(meubleTv);
+
+        Server lit = new Server();
+        lit.setName("Lit");
+        lit.setIcon(R.mipmap.ic_object_bed);
+        list.add(lit);
+
+    }
+
+   /* @OnClick(R.id.home_color_picker)
     void openColorPicker(){
         ColorPickerDialogBuilder
                 .with(MainActivity.this)
@@ -54,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build()
                 .show();
-    }
+    }*/
 
-
-    private void mock(){
-        this.list = new ArrayList<Server>();
-    }
 }

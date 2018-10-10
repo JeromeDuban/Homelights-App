@@ -3,4 +3,6 @@
     <color name="colorPrimary">#2E5398</color>
     <color name="colorPrimaryDark">#263261</color>
     <color name="colorAccent">#6746c3</color>
+
+    <color name="tile_selected">#2E9853</color>
 </resources>

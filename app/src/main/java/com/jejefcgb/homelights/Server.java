@@ -3,8 +3,18 @@ package com.jejefcgb.homelights;
 import java.util.List;
 
 class Server {
+
     private String name;
     private List<GPIO> gpios;
+    private int icon;
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
 
     public Server() {
     }
@@ -26,10 +36,11 @@ class Server {
     }
 
     @Override
-    public String toString() {
+    public String   toString() {
         return "Server{" +
                 "name='" + name + '\'' +
                 ", gpios=" + gpios +
+                ", icon=" + icon +
                 '}';
     }
 }
