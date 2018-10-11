@@ -1,24 +1,13 @@
 package com.jejefcgb.homelights;
 
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
-
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         lit.setName("Lit");
         lit.setIcon(R.mipmap.ic_object_bed);
         list.add(lit);
+
+        Server bar = new Server();
+        bar.setName("Bar");
+        bar.setIcon(R.mipmap.ic_object_bar);
+        list.add(bar);
 
     }
 

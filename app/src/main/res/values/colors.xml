@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#2E5398</color>
     <color name="colorPrimaryDark">#263261</color>
-    <color name="colorAccent">#6746c3</color>
+    <color name="colorAccent">#8BC34A</color>
 
-    <color name="tile_selected">#2E9853</color>
+    <color name="tile_selected">#7497d8</color>
 </resources>

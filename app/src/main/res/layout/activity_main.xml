@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,14 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!--<Button-->
-        <!--android:id="@+id/home.color_picker"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Color Picker"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        fab:menu_colorNormal="@color/colorAccent"
+        fab:menu_colorPressed="@color/colorPrimary"
+        fab:menu_colorRipple="#99FFFFFF"
+        fab:menu_icon="@drawable/ic_light_bulb"
+        android:layout_margin="@dimen/default_margin"
+        fab:layout_constraintBottom_toBottomOf="parent"
+        fab:layout_constraintRight_toRightOf="parent">
+
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@android:color/transparent"
+            fab:fab_colorPressed="@color/colorPrimary"
+            android:src="@mipmap/ic_menu_on"
+            fab:fab_label="@string/light_on" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_menu_off"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:fab_colorNormal="@android:color/transparent"
+            fab:fab_label="@string/light_off" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:fab_colorNormal="@android:color/transparent"
+            android:src="@mipmap/ic_menu_palette"
+            fab:fab_label="@string/pick_color" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.constraint.ConstraintLayout>
