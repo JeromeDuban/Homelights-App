@@ -14,6 +14,7 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
+    private Callback mCallback;
     private ArrayList<Server> mDataset;
     private List<Integer> selectedPos = new ArrayList<>();
 
@@ -43,12 +44,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             } else {
                 selectedPos.add(getAdapterPosition());
             }
+            mCallback.update(selectedPos);
             notifyDataSetChanged();
         }
     }
 
-    MyAdapter(ArrayList<Server> myDataset) {
+    MyAdapter(ArrayList<Server> myDataset, Callback cb) {
         mDataset = myDataset;
+        mCallback = cb;
     }
 
     @Override
