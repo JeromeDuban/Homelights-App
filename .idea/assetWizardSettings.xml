@@ -33,8 +33,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/moon-2.png" />
-                                      <entry key="outputName" value="ic_menu_off" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/desk.png" />
+                                      <entry key="outputName" value="ic_object_desk" />
                                     </map>
                                   </option>
                                 </PersistentState>

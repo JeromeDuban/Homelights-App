@@ -49,6 +49,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
+    public List<Integer> getSelectedPos() {
+        return selectedPos;
+    }
+
+    public void resetSelectedPos() {
+        this.selectedPos = new ArrayList<>();
+        mCallback.update(selectedPos);
+        notifyDataSetChanged();
+    }
+
     MyAdapter(ArrayList<Server> myDataset, Callback cb) {
         mDataset = myDataset;
         mCallback = cb;
