@@ -27,14 +27,14 @@
         fab:menu_icon="@drawable/ic_light_bulb">
 
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_on"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_menu_on"
-            fab:fab_colorNormal="@android:color/transparent"
-            fab:fab_colorPressed="@color/colorPrimary"
-            fab:fab_label="@string/light_on" />
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/menu_on"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/ic_menu_on"-->
+            <!--fab:fab_colorNormal="@android:color/transparent"-->
+            <!--fab:fab_colorPressed="@color/colorPrimary"-->
+            <!--fab:fab_label="@string/light_on" />-->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_off"

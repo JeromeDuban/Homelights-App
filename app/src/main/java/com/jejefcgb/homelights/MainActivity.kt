@@ -3,11 +3,11 @@ package com.jejefcgb.homelights
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -16,11 +16,7 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
-import okhttp3.Call
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,13 +31,10 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.menu_color)
     lateinit var menuColor: FloatingActionButton
 
-    @BindView(R.id.menu_on)
-    lateinit var menuOn: FloatingActionButton
-
     @BindView(R.id.menu_off)
     lateinit var menuOff: FloatingActionButton
 
-    private var mAdapter: RecyclerView.Adapter<*>? = null
+    private var mAdapter: MyAdapter? = null
     private var mLayoutManager: RecyclerView.LayoutManager? = null
     private val NB_COLUMNS = 2
 
@@ -108,25 +101,17 @@ class MainActivity : AppCompatActivity() {
         // specify an adapter (see also next example)
         list = ArrayList()
 
-        val meubleTv = Server()
-        meubleTv.name = "Meuble TV"
-        meubleTv.icon = R.mipmap.ic_object_tv
-        list!!.add(meubleTv)
+        val verres = Server()
+        verres.name = "Verres"
+        verres.icon = R.mipmap.ic_object_glasses
+        verres.ip = "192.168.1.200"
+        list!!.add(verres)
 
-        val lit = Server()
-        lit.name = "Lit"
-        lit.icon = R.mipmap.ic_object_bed
-        list!!.add(lit)
-
-        val bar = Server()
-        bar.name = "Bar"
-        bar.icon = R.mipmap.ic_object_bar
-        list!!.add(bar)
-
-        val desk = Server()
-        desk.name = "Bureau"
-        desk.icon = R.mipmap.ic_object_desk
-        list!!.add(desk)
+        val shelf = Server()
+        shelf.name = "Etagère"
+        shelf.icon = R.mipmap.ic_object_shelf
+        shelf.ip = "192.168.1.201"
+        list!!.add(shelf)
 
     }
 
@@ -137,39 +122,32 @@ class MainActivity : AppCompatActivity() {
             menu.close(true)
         }
 
-
         ColorPickerDialogBuilder
                 .with(this@MainActivity)
                 .setTitle(getString(R.string.color_title))
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
-                .showAlphaSlider(false)
-                .setPositiveButton(getString(R.string.validate)) { dialogInterface, i, integers ->
-                    (mAdapter as MyAdapter).resetSelectedPos()
-                    val client = OkHttpClient()
-
-
-                    val url = String.format("http://192.168.1.41:8080/api/lights/%1\$d/%2\$d/%3\$d", Color.red(i), Color.green(i), Color.blue(i))
-
-                    val request = Request.Builder()
-                            .url(url)
-                            .build()
-
-                    client.newCall(request).enqueue(object : okhttp3.Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-
-                        }
-
-                        @Throws(IOException::class)
-                        override fun onResponse(call: Call, response: Response) {
-
-                        }
-                    })
+                .setOnColorSelectedListener { color ->
+                    switchOn(color)
+                    Log.d("TAG", color.toString())
                 }
-                // TODO Send commands
-                .setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+                .showAlphaSlider(false)
+                .setPositiveButton(getString(R.string.validate)) { dialogInterface, color, integers ->
+                   dialogInterface.dismiss()
+                }
                 .build()
                 .show()
+    }
+
+    private fun switchOn(color : Int){
+
+        val client = OkHttpClient()
+
+        for (i in mAdapter!!.getSelectedPos()){
+            APIHelper.switchOnWithColor(this@MainActivity, list!![i], color, client)
+        }
+
+        //(mAdapter as MyAdapter).resetSelectedPos()
     }
 
     @OnClick(R.id.menu_off)
@@ -179,26 +157,13 @@ class MainActivity : AppCompatActivity() {
             menu.close(true)
         }
 
-        (mAdapter as MyAdapter).resetSelectedPos()
         val client = OkHttpClient()
 
+        for (i in mAdapter!!.getSelectedPos()){
+            APIHelper.switchOff(this@MainActivity, list!![i], client)
+        }
 
-        val url = String.format("http://192.168.1.41:8080/api/lights/0/0/0")
-
-        val request = Request.Builder()
-                .url(url)
-                .build()
-
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-
-            }
-        })
+        //(mAdapter as MyAdapter).resetSelectedPos()
     }
 
 }
