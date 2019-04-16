@@ -3,36 +3,36 @@ package com.jejefcgb.homelights
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.afollestad.materialdialogs.MaterialDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import okhttp3.OkHttpClient
 import java.util.*
 
+
+
 class MainActivity : AppCompatActivity() {
 
     private var list: ArrayList<Server>? = null
+
     @BindView(R.id.my_recycler_view)
     lateinit var mRecyclerView: RecyclerView
 
     @BindView(R.id.menu)
     lateinit var menu: FloatingActionMenu
 
-    @BindView(R.id.menu_color)
-    lateinit var menuColor: FloatingActionButton
-
-    @BindView(R.id.menu_off)
-    lateinit var menuOff: FloatingActionButton
 
     private var mAdapter: MyAdapter? = null
     private var mLayoutManager: RecyclerView.LayoutManager? = null
@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
+        checkWifi()
+
         mRecyclerView.addItemDecoration(
                 GridSpacingItemDecoration(
                         NB_COLUMNS,
@@ -97,15 +99,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun checkWifi() {
+        //FIXME Android 8+
+        val wifiMgr = MainActivity@this.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo = wifiMgr.connectionInfo
+        val name = wifiInfo.ssid
+        if (name != getString(R.string.wifi_name)){
+            MaterialDialog(this).show {
+                title(text = "Réseau WiFI")
+                message(text = "Vous n'êtes pas sur le bon réseau wifi.")
+                positiveButton ( text = "Rééssayer.") {
+                    checkWifi()
+                }
+                negativeButton{  dismiss()}
+            }
+        }
+    }
+
     private fun setData() {
         // specify an adapter (see also next example)
         list = ArrayList()
 
-        val verres = Server()
-        verres.name = "Verres"
-        verres.icon = R.mipmap.ic_object_glasses
-        verres.ip = "192.168.1.200"
-        list!!.add(verres)
+        val glasses = Server()
+        glasses.name = "Verres"
+        glasses.icon = R.mipmap.ic_object_glasses
+        glasses.ip = "192.168.1.200"
+        list!!.add(glasses)
 
         val shelf = Server()
         shelf.name = "Etagère"

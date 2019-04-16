@@ -6,4 +6,5 @@
     <string name="pick_color">Choisir une couleur</string>
     <string name="light_on">Allumer</string>
     <string name="light_off">Eteindre</string>
+    <string name="wifi_name">Freebox-51B3CA</string>
 </resources>
