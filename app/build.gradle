@@ -43,6 +43,8 @@ dependencies {
 
     implementation 'com.afollestad.material-dialogs:core:2.7.0'
 
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
     implementation 'com.github.clans:fab:1.6.4'
 
     compile 'com.squareup.okhttp3:okhttp:3.11.0'

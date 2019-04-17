@@ -1,5 +1,6 @@
 package com.jejefcgb.homelights
 
+import android.Manifest.permission
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
@@ -19,11 +20,12 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.github.clans.fab.FloatingActionMenu
 import okhttp3.OkHttpClient
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
+import pub.devrel.easypermissions.PermissionRequest
 
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
 
     private var list: ArrayList<Server>? = null
 
@@ -36,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private var mAdapter: MyAdapter? = null
     private var mLayoutManager: RecyclerView.LayoutManager? = null
-    private val NB_COLUMNS = 2
 
     private val cb = object : Callback() {
         override fun update(value: List<Int>) {
@@ -100,20 +101,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkWifi() {
-        //FIXME Android 8+
-        val wifiMgr = MainActivity@this.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiMgr = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val wifiInfo = wifiMgr.connectionInfo
         val name = wifiInfo.ssid
-        if (name != getString(R.string.wifi_name)){
-            MaterialDialog(this).show {
-                title(text = "Réseau WiFI")
-                message(text = "Vous n'êtes pas sur le bon réseau wifi.")
-                positiveButton ( text = "Rééssayer.") {
-                    checkWifi()
+
+        val perms = arrayOf(permission.ACCESS_COARSE_LOCATION)
+
+        if (EasyPermissions.hasPermissions(this, *perms)) {
+            if (name != getString(R.string.wifi_name)){
+                MaterialDialog(this).show {
+                    title(text = "Réseau WiFI")
+                    message(text = "Vous n'êtes pas sur le bon réseau wifi.")
+                    positiveButton ( text = "Rééssayer.") {
+                        checkWifi()
+                    }
+                    negativeButton{  dismiss()}
                 }
-                negativeButton{  dismiss()}
             }
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale),
+                    RC_LOCATION, *perms)
         }
+
     }
 
     private fun setData() {
@@ -183,6 +193,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         //(mAdapter as MyAdapter).resetSelectedPos()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (requestCode == RC_LOCATION){
+            checkWifi()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        if (requestCode == RC_LOCATION){
+            checkWifi()
+        }
+    }
+
+    companion object {
+
+        internal const val RC_LOCATION = 1000
+        internal const val NB_COLUMNS = 2
     }
 
 }
