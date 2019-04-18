@@ -10,6 +10,9 @@
 
         <!--Matérial dialogs-->
         <item name="md_color_button_text">@color/colorAccent</item>
+
+        <!--transitions-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
 </resources>

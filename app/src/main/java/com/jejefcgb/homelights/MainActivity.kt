@@ -1,28 +1,26 @@
 package com.jejefcgb.homelights
 
-import android.Manifest.permission
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.content.Context
-import android.net.wifi.WifiManager
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
-import com.afollestad.materialdialogs.MaterialDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.github.clans.fab.FloatingActionMenu
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-import pub.devrel.easypermissions.PermissionRequest
 
 
 class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
@@ -73,7 +71,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        checkWifi()
+//        checkWifi()
 
         mRecyclerView.addItemDecoration(
                 GridSpacingItemDecoration(
@@ -100,31 +98,34 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
 
     }
 
-    private fun checkWifi() {
-        val wifiMgr = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiInfo = wifiMgr.connectionInfo
-        val name = wifiInfo.ssid
-
-        val perms = arrayOf(permission.ACCESS_COARSE_LOCATION)
-
-        if (EasyPermissions.hasPermissions(this, *perms)) {
-            if (name != getString(R.string.wifi_name)){
-                MaterialDialog(this).show {
-                    title(text = "Réseau WiFI")
-                    message(text = "Vous n'êtes pas sur le bon réseau wifi.")
-                    positiveButton ( text = "Rééssayer.") {
-                        checkWifi()
-                    }
-                    negativeButton{  dismiss()}
-                }
-            }
-        } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale),
-                    RC_LOCATION, *perms)
-        }
-
-    }
+//    private fun checkWifi() {
+//
+//
+//        val perms = arrayOf(permission.ACCESS_COARSE_LOCATION)
+//
+//        if (EasyPermissions.hasPermissions(this, *perms)) {
+//            val wifiMgr = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
+//            val wifiInfo = wifiMgr.connectionInfo
+//            val name = wifiInfo.ssid
+//            val resource = getString(R.string.wifi_name)
+//
+//            if (!name.equals(getString(R.string.wifi_name))){
+//                MaterialDialog(this).show {
+//                    title(text = "Réseau WiFI")
+//                    message(text = "Vous n'êtes pas sur le bon réseau wifi.")
+//                    positiveButton ( text = "Rééssayer.") {
+//                        checkWifi()
+//                    }
+//                    negativeButton{  dismiss()}
+//                }
+//            }
+//        } else {
+//            // Do not have permissions, request them now
+//            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale),
+//                    RC_LOCATION, *perms)
+//        }
+//
+//    }
 
     private fun setData() {
         // specify an adapter (see also next example)
@@ -204,14 +205,45 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (requestCode == RC_LOCATION){
-            checkWifi()
+//            checkWifi()
         }
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         if (requestCode == RC_LOCATION){
-            checkWifi()
+//            checkWifi()
         }
+    }
+
+    @OnClick(R.id.imageTransition)
+    internal fun testTransition(view:View){
+
+        val p1 = androidx.core.util.Pair(imageTransition as View, "transitionImage")
+        val p2 = androidx.core.util.Pair(textTest as View, "transitionText")
+
+        var test = arrayOf(p1)
+        test += p2
+
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *test)
+
+        val intent = Intent(this, TransitionActivity::class.java)
+        startActivity(intent, options.toBundle())
+    }
+
+    @OnClick(R.id.imageTransition2)
+    internal fun testTransition2(view:View){
+
+        val p1 = androidx.core.util.Pair(imageTransition2 as View, "transitionImage")
+        val p2 = androidx.core.util.Pair(textTest2 as View, "transitionText")
+
+        var test = arrayOf(p1)
+        test += p2
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *test)
+
+        val intent = Intent(this, TransitionActivity::class.java)
+        startActivity(intent, options.toBundle())
     }
 
     companion object {
