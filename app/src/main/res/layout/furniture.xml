@@ -4,7 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:padding="16dp">
+    android:id="@+id/card.background"
+    android:padding="16dp"
+    android:transitionName="transitionBackground">
+
+    <!--<View-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+
+    <!--android:transitionName="transitionBackground"-->
+    <!--android:background="@color/colorPrimary"-->
+    <!--app:layout_constraintBottom_toBottomOf="@+id/card.title"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageView
         android:id="@+id/card.icon"
@@ -12,7 +25,8 @@
         android:layout_height="75dp"
         android:src="@mipmap/ic_object_tv"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView

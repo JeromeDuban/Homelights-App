@@ -3,12 +3,10 @@ package com.jejefcgb.homelights
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -17,15 +15,13 @@ import butterknife.OnClick
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.github.clans.fab.FloatingActionMenu
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
-import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
+class MainActivity : AppCompatActivity(){
 
-    private var list: ArrayList<Server>? = null
+    private var list: ArrayList<Server> = ArrayList()
 
     @BindView(R.id.my_recycler_view)
     lateinit var mRecyclerView: RecyclerView
@@ -92,7 +88,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
 
         setData()
 
-        mAdapter = MyAdapter(list!!, cb)
+        mAdapter = MyAdapter(list!!, cb, this)
 
         mRecyclerView.adapter = mAdapter
 
@@ -135,13 +131,17 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
         glasses.name = "Verres"
         glasses.icon = R.mipmap.ic_object_glasses
         glasses.ip = "192.168.1.200"
-        list!!.add(glasses)
+        list.add(glasses)
 
         val shelf = Server()
         shelf.name = "Etagère"
         shelf.icon = R.mipmap.ic_object_shelf
         shelf.ip = "192.168.1.201"
-        list!!.add(shelf)
+        list.add(shelf)
+
+        for (i in 1..10){
+            list.add(Server("Test"+i.toString(),R.mipmap.ic_object_bed,"192.168.1.1"))
+        }
 
     }
 
@@ -196,55 +196,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks{
         //(mAdapter as MyAdapter).resetSelectedPos()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (requestCode == RC_LOCATION){
-//            checkWifi()
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if (requestCode == RC_LOCATION){
-//            checkWifi()
-        }
-    }
-
-    @OnClick(R.id.imageTransition)
-    internal fun testTransition(view:View){
-
-        val p1 = androidx.core.util.Pair(imageTransition as View, "transitionImage")
-        val p2 = androidx.core.util.Pair(textTest as View, "transitionText")
-
-        var test = arrayOf(p1)
-        test += p2
-
-
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *test)
-
-        val intent = Intent(this, TransitionActivity::class.java)
-        startActivity(intent, options.toBundle())
-    }
-
-    @OnClick(R.id.imageTransition2)
-    internal fun testTransition2(view:View){
-
-        val p1 = androidx.core.util.Pair(imageTransition2 as View, "transitionImage")
-        val p2 = androidx.core.util.Pair(textTest2 as View, "transitionText")
-
-        var test = arrayOf(p1)
-        test += p2
-
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *test)
-
-        val intent = Intent(this, TransitionActivity::class.java)
-        startActivity(intent, options.toBundle())
-    }
 
     companion object {
 
