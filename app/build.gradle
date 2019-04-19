@@ -48,6 +48,8 @@ dependencies {
 
     implementation 'com.github.clans:fab:1.6.4'
 
+    implementation("com.squareup.moshi:moshi:1.8.0")
+
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

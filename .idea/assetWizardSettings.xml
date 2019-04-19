@@ -101,8 +101,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/shelf.svg" />
-                                      <entry key="outputName" value="ic_object_shelf" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/baseline-refresh-white-48/2x/baseline_refresh_white_48dp.png" />
+                                      <entry key="outputName" value="ic_menu_refresh" />
                                     </map>
                                   </option>
                                 </PersistentState>

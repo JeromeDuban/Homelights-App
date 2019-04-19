@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +16,21 @@ import butterknife.OnClick
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.github.clans.fab.FloatingActionMenu
+import com.jejefcgb.homelights.objects.Furniture
+import com.jejefcgb.homelights.objects.Home
+import com.squareup.moshi.Moshi
+import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Call
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
-    private var list: ArrayList<Server> = ArrayList()
+    private var list: ArrayList<Furniture> = ArrayList()
 
     @BindView(R.id.my_recycler_view)
     lateinit var mRecyclerView: RecyclerView
@@ -32,6 +41,8 @@ class MainActivity : AppCompatActivity(){
 
     private var mAdapter: MyAdapter? = null
     private var mLayoutManager: RecyclerView.LayoutManager? = null
+    private var gettingConfig: Boolean = false
+    private var config: Home? = null
 
     private val cb = object : Callback() {
         override fun update(value: List<Int>) {
@@ -86,64 +97,53 @@ class MainActivity : AppCompatActivity(){
 
         mRecyclerView.layoutManager = mLayoutManager
 
-        setData()
+//        setData()
 
         mAdapter = MyAdapter(list!!, cb, this)
 
         mRecyclerView.adapter = mAdapter
 
+        getConfig()
+
     }
 
-//    private fun checkWifi() {
+
+    private fun setConfig(home: Home?) {
+        config = home
+        if (home != null){
+            for(room in home.rooms){
+                for (furniture in room.furnitures){
+                    list.add(furniture)
+                }
+            }
+        }
+    }
+
+//    private fun setData() {
+//        // specify an adapter (see also next example)
+//        list = ArrayList()
 //
+//        val test = resources.getResourceEntryName(R.mipmap.ic_object_glasses)
+//        val test2 = R.mipmap.ic_object_glasses
+//        val test3 = resources.getIdentifier(test, "mipmap", packageName)
 //
-//        val perms = arrayOf(permission.ACCESS_COARSE_LOCATION)
+//        val glasses = Server()
+//        glasses.name = "Verres"
+//        glasses.icon = R.mipmap.ic_object_glasses
+//        glasses.ip = "192.168.1.200"
+//        list.add(glasses)
 //
-//        if (EasyPermissions.hasPermissions(this, *perms)) {
-//            val wifiMgr = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-//            val wifiInfo = wifiMgr.connectionInfo
-//            val name = wifiInfo.ssid
-//            val resource = getString(R.string.wifi_name)
+//        val shelf = Server()
+//        shelf.name = "Etagère"
+//        shelf.icon = R.mipmap.ic_object_shelf
+//        shelf.ip = "192.168.1.201"
+//        list.add(shelf)
 //
-//            if (!name.equals(getString(R.string.wifi_name))){
-//                MaterialDialog(this).show {
-//                    title(text = "Réseau WiFI")
-//                    message(text = "Vous n'êtes pas sur le bon réseau wifi.")
-//                    positiveButton ( text = "Rééssayer.") {
-//                        checkWifi()
-//                    }
-//                    negativeButton{  dismiss()}
-//                }
-//            }
-//        } else {
-//            // Do not have permissions, request them now
-//            EasyPermissions.requestPermissions(this, getString(R.string.location_rationale),
-//                    RC_LOCATION, *perms)
+//        for (i in 1..10) {
+//            list.add(Server("Test" + i.toString(), R.mipmap.ic_object_bed, "192.168.1.1"))
 //        }
 //
 //    }
-
-    private fun setData() {
-        // specify an adapter (see also next example)
-        list = ArrayList()
-
-        val glasses = Server()
-        glasses.name = "Verres"
-        glasses.icon = R.mipmap.ic_object_glasses
-        glasses.ip = "192.168.1.200"
-        list.add(glasses)
-
-        val shelf = Server()
-        shelf.name = "Etagère"
-        shelf.icon = R.mipmap.ic_object_shelf
-        shelf.ip = "192.168.1.201"
-        list.add(shelf)
-
-        for (i in 1..10){
-            list.add(Server("Test"+i.toString(),R.mipmap.ic_object_bed,"192.168.1.1"))
-        }
-
-    }
 
     @OnClick(R.id.menu_color)
     internal fun openColorPicker() {
@@ -163,18 +163,18 @@ class MainActivity : AppCompatActivity(){
                 }
                 .showAlphaSlider(false)
                 .setPositiveButton(getString(R.string.validate)) { dialogInterface, color, integers ->
-                   dialogInterface.dismiss()
+                    dialogInterface.dismiss()
                 }
                 .build()
                 .show()
     }
 
-    private fun switchOn(color : Int){
+    private fun switchOn(color: Int) {
 
         val client = OkHttpClient()
 
-        for (i in mAdapter!!.getSelectedPos()){
-            APIHelper.switchOnWithColor(this@MainActivity, list!![i], color, client)
+        for (i in mAdapter!!.getSelectedPos()) {
+            APIHelper.switchOnWithColor(this@MainActivity, list[i], color, client)
         }
 
         //(mAdapter as MyAdapter).resetSelectedPos()
@@ -189,11 +189,59 @@ class MainActivity : AppCompatActivity(){
 
         val client = OkHttpClient()
 
-        for (i in mAdapter!!.getSelectedPos()){
-            APIHelper.switchOff(this@MainActivity, list!![i], client)
+        for (i in mAdapter!!.getSelectedPos()) {
+            APIHelper.switchOff(this@MainActivity, list[i], client)
         }
 
         //(mAdapter as MyAdapter).resetSelectedPos()
+    }
+
+    @OnClick(R.id.menu_refresh)
+    internal fun getConfig() {
+
+        menu_refresh.visibility = View.GONE
+        menu_refreshing.visibility = View.VISIBLE
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+                .url("http://192.168.1.114:8080/api/config") //FIXME Variabiliser
+                .build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+
+                this@MainActivity.runOnUiThread {
+                    menu_refresh.visibility = View.VISIBLE
+                    menu_refreshing.visibility = View.GONE
+                    Toast.makeText(this@MainActivity, "Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+
+                val moshi = Moshi.Builder().build()
+                val jsonAdapter = moshi.adapter(Home::class.java)
+
+                if (response.isSuccessful) {
+                    val json = response.body()?.string()
+                    setConfig(if (json != null) jsonAdapter.fromJson(json) else null)
+                    this@MainActivity.runOnUiThread{
+                        menu_refresh.visibility = View.GONE
+                        menu_refreshing.visibility = View.GONE
+                    }
+
+                } else {
+
+                    val body = response.body()?.string()
+                    this@MainActivity.runOnUiThread {
+                        Toast.makeText(this@MainActivity, "Une erreur est survenue lors de la récupération de la configuration : (${response.code()}) > $body", Toast.LENGTH_SHORT).show()
+                        menu_refresh.visibility = View.VISIBLE
+                        menu_refreshing.visibility = View.GONE
+                    }
+                }
+            }
+        })
     }
 
 

@@ -11,10 +11,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jejefcgb.homelights.objects.Furniture
 import kotlinx.android.synthetic.main.furniture.view.*
 import java.util.*
 
-class MyAdapter internal constructor(private val mDataset: ArrayList<Server>, private val mCallback: Callback, private val mActivity : Activity) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter internal constructor(private val mDataset: ArrayList<Furniture>, private val mCallback: Callback, private val mActivity : Activity) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private var selectedPos: MutableList<Int> = ArrayList()
 
@@ -98,7 +99,9 @@ class MyAdapter internal constructor(private val mDataset: ArrayList<Server>, pr
 
         val s = mDataset[position]
         holder.mTitle.text = s.name
-        holder.mIcon.setImageResource(s.icon)
+        holder.mIcon.setImageResource(mActivity.resources.getIdentifier(s.icon,
+                "mipmap",
+                mActivity.packageName))
 
     }
 

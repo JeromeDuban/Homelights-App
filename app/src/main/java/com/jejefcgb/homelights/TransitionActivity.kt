@@ -11,10 +11,12 @@ class TransitionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition)
 
-        val iconValue  = intent?.extras?.get("EXTRA_ICON") as Int
+        val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
         val titleValue = intent?.extras?.get("EXTRA_TITLE") as String
 
-        detail_icon.setImageResource(iconValue)
+        detail_icon.setImageResource(resources.getIdentifier(iconValue,
+                "mipmap",
+                packageName))
         detail_title.text = titleValue
 
     }
