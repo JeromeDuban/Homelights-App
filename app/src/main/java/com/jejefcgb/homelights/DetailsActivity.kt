@@ -17,15 +17,17 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         ButterKnife.bind(this)
-        supportActionBar?.setHomeButtonEnabled(true)
+
+        supportActionBar?.elevation = 0f
+        //supportActionBar?.setHomeButtonEnabled(true)<
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
+        val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
         val titleValue = intent?.extras?.get("EXTRA_TITLE") as String
 
-//        detail_icon.setImageResource(resources.getIdentifier(iconValue,
-//                "mipmap",
-//                packageName))
+        detail_icon.setImageResource(resources.getIdentifier(iconValue,
+                "mipmap",
+                packageName))
         detail_title.text = titleValue
     }
 
@@ -106,4 +108,9 @@ class DetailsActivity : AppCompatActivity() {
 //
 //        }
 //    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

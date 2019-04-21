@@ -8,4 +8,5 @@
     <string name="light_off">Eteindre</string>
     <string name="wifi_name">"Freebox-51B3CA"</string>
     <string name="location_rationale">L\'application a besoin de cette permission pour vérifier le nom du réseau wifi.</string>
+
 </resources>

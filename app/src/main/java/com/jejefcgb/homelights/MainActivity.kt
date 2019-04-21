@@ -47,8 +47,12 @@ class MainActivity : AppCompatActivity() {
         mAdapter = MainAdapter(this)
         mRecyclerView.adapter = mAdapter
 
+        // Swipe to refresh
         swipe_container.setOnRefreshListener { getRemoteConfig() }
         swipe_container.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
+
+        // Action bar
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         getRemoteConfig()
 
