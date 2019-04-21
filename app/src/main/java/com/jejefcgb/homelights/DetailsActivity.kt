@@ -17,6 +17,8 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         ButterKnife.bind(this)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
         val titleValue = intent?.extras?.get("EXTRA_TITLE") as String

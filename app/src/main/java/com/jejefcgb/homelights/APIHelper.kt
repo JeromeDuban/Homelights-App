@@ -14,10 +14,12 @@ import java.io.IOException
 
 internal class APIHelper {
     companion object {
+        
+        const val API_ADDRESS : String = "http://192.168.1.114:8080/api"
 
         fun switchOnWithColor(context: Activity, furniture: Furniture, color: Int, client: OkHttpClient) {
 
-            val url = String.format("http://192.168.1.114:8080/api/magic/%1\$s/%2\$d/%3\$d/%4\$d",
+            val url = String.format("$API_ADDRESS/magic/%1\$s/%2\$d/%3\$d/%4\$d",
                     furniture.ip,
                     Color.red(color),
                     Color.green(color),
@@ -41,7 +43,7 @@ internal class APIHelper {
 
         fun switchOff(context: Activity, furniture: Furniture, client: OkHttpClient) {
 
-            val url = String.format("http://192.168.1.114:8080/api/magic/%1\$s/0/0/0",
+            val url = String.format("$API_ADDRESS/magic/%1\$s/0/0/0",
                     furniture.ip)
 
             val request = Request.Builder()

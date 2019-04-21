@@ -1,14 +1,13 @@
 package com.jejefcgb.homelights
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.objects.Home
 import com.squareup.moshi.Moshi
@@ -48,65 +47,62 @@ class MainActivity : AppCompatActivity() {
         mAdapter = MainAdapter(this)
         mRecyclerView.adapter = mAdapter
 
+        swipe_container.setOnRefreshListener { getRemoteConfig() }
+        swipe_container.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN)
+
         getRemoteConfig()
 
     }
 
 
-    @OnClick(R.id.menu_refresh)
-    internal fun getRemoteConfig() {
+    private fun getRemoteConfig() {
 
-        menu_refresh.visibility = View.GONE
-        menu_refreshing.visibility = View.VISIBLE
-
+        swipe_container.isRefreshing = true
         val client = OkHttpClient()
         val request = Request.Builder()
-                .url("http://192.168.1.114:8080/api/config") //FIXME Variabiliser
+                .url("${APIHelper.API_ADDRESS}/config")
                 .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: Call, e: IOException) {
-
                 this@MainActivity.runOnUiThread {
-                    menu_refresh.visibility = View.VISIBLE
-                    menu_refreshing.visibility = View.GONE
-                    Toast.makeText(this@MainActivity, "Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi", Toast.LENGTH_SHORT).show()
+                    swipe_container.isRefreshing = false
+
+                    toast("Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi")
+                    config = Home()
+                    mAdapter.notifyDataSetChanged()
                 }
             }
 
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
+                this@MainActivity.runOnUiThread {
+                    swipe_container.isRefreshing = false
 
-                val moshi = Moshi.Builder().build()
-                val jsonAdapter = moshi.adapter(Home::class.java)
+                    if (response.isSuccessful) {
 
-                if (response.isSuccessful) {
-                    val json = response.body()?.string()
+                        val jsonAdapter = Moshi.Builder().build().adapter(Home::class.java)
+                        val json = response.body()?.string()
 
-                    this@MainActivity.runOnUiThread{
-                        if (json != null ){
-                            config = jsonAdapter.fromJson(json) as Home
-                        }
-                        menu_refresh.visibility = View.GONE
-                        menu_refreshing.visibility = View.GONE
-                    }
+                        HomeLightsApplication.config = jsonAdapter.fromJson(json as String) as Home
+                        mAdapter.notifyDataSetChanged()
 
-                } else {
-
-                    val body = response.body()?.string()
-                    this@MainActivity.runOnUiThread {
-                        Toast.makeText(this@MainActivity, "Une erreur est survenue lors de la récupération de la configuration : (${response.code()}) > $body", Toast.LENGTH_SHORT).show()
-                        menu_refresh.visibility = View.VISIBLE
-                        menu_refreshing.visibility = View.GONE
+                        toast("Configuration chargée")
+                    } else {
+                        val body = response.body()?.string()
+                        toast("Une erreur est survenue lors de la récupération de la configuration : (${response.code()}) > $body")
                     }
                 }
             }
         })
     }
 
+    private fun toast(message: String) {
+        Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+    }
 
     companion object {
-        internal const val NB_COLUMNS = 2
+        internal const val NB_COLUMNS = 1
     }
 
 }
