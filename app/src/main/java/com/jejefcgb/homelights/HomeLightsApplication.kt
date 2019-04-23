@@ -1,7 +1,7 @@
 package com.jejefcgb.homelights
 
 import android.app.Application
-import com.jejefcgb.homelights.objects.Home
+import com.jejefcgb.homelights.data.model.Home
 
 class HomeLightsApplication : Application() {
 

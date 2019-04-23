@@ -1,9 +1,9 @@
-package com.jejefcgb.homelights
+package com.jejefcgb.homelights.utils
 
 import android.app.Activity
 import android.graphics.Color
 import android.widget.Toast
-import com.jejefcgb.homelights.objects.Furniture
+import com.jejefcgb.homelights.data.model.Furniture
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request

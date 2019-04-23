@@ -14,11 +14,11 @@
         <!--fab:layout_constraintTop_toTopOf="parent" />-->
 
     <View
-        android:id="@+id/header"
+        android:id="@+id/detail.header"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:background="@drawable/rounded_bottom_corners"
-        android:transitionName="transitionBackground"
+        android:transitionName="transition_background"
         fab:layout_constraintEnd_toEndOf="parent"
         fab:layout_constraintStart_toStartOf="parent"
         fab:layout_constraintTop_toTopOf="parent" />
@@ -30,25 +30,26 @@
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:src="@android:mipmap/sym_def_app_icon"
-        android:transitionName="transitionImage"
-        fab:layout_constraintBottom_toBottomOf="@+id/header"
-        fab:layout_constraintStart_toStartOf="@+id/header"
-        fab:layout_constraintTop_toTopOf="@id/header" />
+        android:transitionName="transition_icon"
+        fab:layout_constraintBottom_toBottomOf="@+id/detail.header"
+        fab:layout_constraintStart_toStartOf="@+id/detail.header"
+        fab:layout_constraintTop_toTopOf="@id/detail.header" />
 
     <TextView
-        android:id="@+id/detail.title"
-        style="@android:style/TextAppearance.Material.Title"
+        android:id="@+id/detail.name"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textSize="20sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/detail.icon"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:text="Nom"
-        android:transitionName="transitionTitle"
-        fab:layout_constraintBottom_toBottomOf="@+id/header"
+        android:transitionName="transition_title"
+        fab:layout_constraintBottom_toBottomOf="@+id/detail.header"
         fab:layout_constraintEnd_toEndOf="parent"
         fab:layout_constraintStart_toEndOf="@+id/detail.icon"
-        fab:layout_constraintTop_toTopOf="@+id/header" />
+        fab:layout_constraintTop_toTopOf="@+id/detail.header" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"

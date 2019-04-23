@@ -1,4 +1,4 @@
-package com.jejefcgb.homelights
+package com.jejefcgb.homelights.utils
 
 import android.content.Context
 import android.graphics.Color

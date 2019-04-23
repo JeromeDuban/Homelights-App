@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
-import com.jejefcgb.homelights.objects.Home
+import com.jejefcgb.homelights.data.model.Home
+import com.jejefcgb.homelights.data.model.Room
+import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
+import com.jejefcgb.homelights.ui.MainAdapter
+import com.jejefcgb.homelights.utils.APIHelper
 import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
@@ -73,7 +77,9 @@ class MainActivity : AppCompatActivity() {
                     swipe_container.isRefreshing = false
 
                     toast("Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi")
-                    config = Home()
+
+                    config = Home("home", listOf(Room("Room 1", ArrayList()),Room("Room 2", ArrayList()),Room("Room 3", ArrayList()),Room("Room 4", ArrayList())))
+
                     mAdapter.notifyDataSetChanged()
                 }
             }

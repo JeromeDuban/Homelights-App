@@ -1,4 +1,4 @@
-package com.jejefcgb.homelights
+package com.jejefcgb.homelights.ui
 
 import android.app.Activity
 
@@ -69,7 +69,7 @@ class DetailsAdapter internal constructor(
 //    override fun onCreateViewHolder(parent: ViewGroup,
 //                                    viewType: Int): DetailsAdapter.MainViewHolder {
 //        val v = LayoutInflater.from(parent.context)
-//                .inflate(R.layout.furniture, parent, false) as ConstraintLayout
+//                .inflate(R.layout.furniture_item, parent, false) as ConstraintLayout
 //
 //        return MainViewHolder(v)
 //    }

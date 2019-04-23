@@ -1,4 +1,4 @@
-package com.jejefcgb.homelights
+package com.jejefcgb.homelights.ui
 
 import android.graphics.Rect
 import androidx.recyclerview.widget.RecyclerView

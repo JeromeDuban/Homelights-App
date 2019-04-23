@@ -12,8 +12,13 @@
         <item name="md_color_button_text">@color/colorAccent</item>
 
         <!--transitions-->
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="AppTheme.Details">
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/shared_main_detail
+        </item>
     </style>
 
 </resources>

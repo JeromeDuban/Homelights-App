@@ -1,4 +1,4 @@
-package com.jejefcgb.homelights.objects
+package com.jejefcgb.homelights.data.model
 
 import com.squareup.moshi.Json
 

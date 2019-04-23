@@ -22,13 +22,20 @@ class DetailsActivity : AppCompatActivity() {
         //supportActionBar?.setHomeButtonEnabled(true)<
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+//        postponeEnterTransition()
+
+        val intent = intent
+        val sharedElementCallback = DetailSharedElementEnterCallback(intent,detail_name, detail_icon, detail_header)
+
+        setEnterSharedElementCallback(sharedElementCallback)
+
         val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
         val titleValue = intent?.extras?.get("EXTRA_TITLE") as String
 
         detail_icon.setImageResource(resources.getIdentifier(iconValue,
                 "mipmap",
                 packageName))
-        detail_title.text = titleValue
+        detail_name.text = titleValue
     }
 
 //    @OnClick(R.id.menu_color)
