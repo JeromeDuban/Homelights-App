@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <transitionSet>
         <targets>
             <target android:targetId="@id/detail.icon" />
@@ -43,7 +44,9 @@
         <targets>
             <target android:targetId="@id/detail.header" />
         </targets>
-        <changeBounds/>
+
+
+        <changeBounds />
         <changeTransform />
         <changeClipBounds />
         <changeImageTransform />

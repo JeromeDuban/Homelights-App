@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.jejefcgb.homelights.DetailsActivity
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
@@ -46,12 +47,26 @@ class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
 
             if (adapterPosition == RecyclerView.NO_POSITION) return
 
-            val p1 = androidx.core.util.Pair(mIcon as View, "transition_icon")
+            // Déclare toutes les transitions ici via leur transitionName
+            // Elles doivent être précisées dans le fichier shared_main_details.xml ( déclaré dans un style)
+            // En plus de ça, certaines données doivent être transmises à un CallBack déclaré dans la seconde activité.
 
+            // Custom Views
+            val p1 = Pair(mIcon as View, mIcon.transitionName)
             var transitions = arrayOf(p1)
-            transitions+= androidx.core.util.Pair(mTitle as View , "transition_title")
-            transitions+= androidx.core.util.Pair(mBackground as View , "transition_background")
+            transitions+= Pair(mTitle as View , mTitle.transitionName)
+            transitions+= Pair(mBackground, mBackground.transitionName)
 
+            // System views
+            val decorView = mActivity.window.decorView
+
+            val statusBackground = decorView.findViewById(android.R.id.statusBarBackground) as View
+            transitions += Pair(statusBackground, statusBackground.transitionName)
+
+            val navBackground = decorView.findViewById(android.R.id.navigationBarBackground) as View
+            transitions += Pair(navBackground, navBackground.transitionName)
+
+            // Bundle
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, *transitions)
 
             val intent = getDetailActivityStartIntent(mActivity, adapterPosition)
@@ -63,6 +78,9 @@ class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         @NonNull
         private fun getDetailActivityStartIntent(host: Activity,
                                                  position: Int): Intent {
+
+
+            // Ajoute des informations sur le textview tel qu'il l'est actuellement
             val intent = Intent(host, DetailsActivity::class.java)
             intent.action = Intent.ACTION_VIEW
             intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, position)

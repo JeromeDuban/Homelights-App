@@ -7,6 +7,7 @@ class HomeLightsApplication : Application() {
 
     companion object {
 
+        const val TAG : String = "HomeLights"
         var config : Home = Home()
     }
 
