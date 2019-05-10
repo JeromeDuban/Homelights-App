@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.clans.fab.FloatingActionMenu
+import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
+import com.jejefcgb.homelights.data.model.Room
 import kotlinx.android.synthetic.main.activity_details.*
 
 
@@ -13,30 +15,29 @@ class DetailsActivity : AppCompatActivity() {
     @BindView(R.id.menu)
     lateinit var menu: FloatingActionMenu
 
+    lateinit var mRoom : Room
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         ButterKnife.bind(this)
 
         supportActionBar?.elevation = 0f
-        //supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-//        postponeEnterTransition()
 
         val intent = intent
 
         // FIXME : transition
+//        postponeEnterTransition()
 //        val sharedElementCallback = DetailSharedElementEnterCallback(intent,detail_name, detail_icon, detail_header)
 //        setEnterSharedElementCallback(sharedElementCallback)
 
-        val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
-        val titleValue = intent.extras?.get("EXTRA_TITLE") as String
+        // Set up header
+        val id = intent?.extras?.get("EXTRA_ID") as Int
+        mRoom = config.rooms.first { x -> x.id == id }
 
-        detail_icon.setImageResource(resources.getIdentifier(iconValue,
-                "mipmap",
-                packageName))
-        detail_name.text = titleValue
+        detail_icon.setImageResource(resources.getIdentifier(mRoom.icon,"mipmap", packageName))
+        detail_name.text = mRoom.name
     }
 
 

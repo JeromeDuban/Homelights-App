@@ -55,8 +55,7 @@ class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
             // val intent = getDetailActivityStartIntent(mActivity, adapterPosition)
 
             val intent = Intent(mActivity, DetailsActivity::class.java)
-            intent.putExtra("EXTRA_ICON", "ic_object_tv") //FIXME
-            intent.putExtra("EXTRA_TITLE", config.rooms[adapterPosition].name)
+            intent.putExtra("EXTRA_ID", config.rooms[adapterPosition].id)
             mActivity.startActivity(intent, options.toBundle())
         }
 
@@ -90,8 +89,8 @@ class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
 
         val room = config.rooms[position]
         holder.mTitle.text = room.name
-        holder.mIcon.setImageResource(R.mipmap.ic_object_tv)
-        holder.mDetails.text = mActivity.resources.getQuantityString(R.plurals.number_devices, config.rooms[position].furnitures.size, config.rooms[position].furnitures.size)
+        holder.mIcon.setImageResource(mActivity.resources.getIdentifier(room.icon,"mipmap", mActivity.packageName))
+        holder.mDetails.text = mActivity.resources.getQuantityString(R.plurals.number_devices, config.rooms[position].furniture.size, config.rooms[position].furniture.size)
         holder.mSwitch.setOnCheckedChangeListener { _, _
             ->  Toast.makeText(mActivity, holder.mTitle.height.toString(), Toast.LENGTH_SHORT).show()}
 

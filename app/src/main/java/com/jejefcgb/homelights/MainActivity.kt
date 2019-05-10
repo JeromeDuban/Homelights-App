@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
+import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Home
 import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
@@ -78,7 +79,18 @@ class MainActivity : AppCompatActivity() {
 
                     toast("Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi")
 
-                    config = Home("home", listOf(Room("Room 1", ArrayList()),Room("Room 2", ArrayList()),Room("Room 3", ArrayList()),Room("Room 4", ArrayList())))
+                    config = Home("home", listOf(
+                            Room(0, "Salon", "ic_object_tv", listOf(
+                                    Furniture("Bar", "192.168.200.1", "ic_object_bar")
+                            )),
+                            Room(1, "Chambre du naze", "ic_object_bed", listOf(
+                                    Furniture("Lit", "192.168.200.1", "ic_object_bed"),
+                                    Furniture("Bureau", "192.168.200.1", "ic_object_desk")
+                            )),
+                            Room(3, "Chambre de la naze", "ic_object_bed", listOf(
+                                    Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
+                                    Furniture("Support écran", "192.168.200.1", "ic_object_tv")
+                            ))))
 
                     mAdapter.notifyDataSetChanged()
                 }
