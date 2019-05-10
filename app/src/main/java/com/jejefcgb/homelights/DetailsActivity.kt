@@ -2,9 +2,15 @@ package com.jejefcgb.homelights
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.clans.fab.FloatingActionMenu
+import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
+import com.jejefcgb.homelights.data.model.Room
+import com.jejefcgb.homelights.ui.FurnitureAdapter
+import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.activity_details.*
 
 
@@ -13,30 +19,52 @@ class DetailsActivity : AppCompatActivity() {
     @BindView(R.id.menu)
     lateinit var menu: FloatingActionMenu
 
+    lateinit var mRoom : Room
+
+    @BindView(R.id.details_recycler_view)
+    lateinit var mRecyclerView: RecyclerView
+
+    private lateinit var mAdapter: FurnitureAdapter
+    private lateinit var mLayoutManager: RecyclerView.LayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         ButterKnife.bind(this)
 
         supportActionBar?.elevation = 0f
-        //supportActionBar?.setHomeButtonEnabled(true)<
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        postponeEnterTransition()
-
         val intent = intent
-        val sharedElementCallback = DetailSharedElementEnterCallback(intent,detail_name, detail_icon, detail_header)
 
-        setEnterSharedElementCallback(sharedElementCallback)
+        // FIXME : transition
+//        postponeEnterTransition()
+//        val sharedElementCallback = DetailSharedElementEnterCallback(intent,detail_name, detail_icon, detail_header)
+//        setEnterSharedElementCallback(sharedElementCallback)
 
-        val iconValue  = intent?.extras?.get("EXTRA_ICON") as String
-        val titleValue = intent?.extras?.get("EXTRA_TITLE") as String
+        // Set up header
+        val roomId = intent?.extras?.get("EXTRA_ID") as Int
+        mRoom = config.rooms.first { x -> x.id == roomId }
+        detail_icon.setImageResource(resources.getIdentifier(mRoom.icon,"mipmap", packageName))
+        detail_name.text = mRoom.name
 
-        detail_icon.setImageResource(resources.getIdentifier(iconValue,
-                "mipmap",
-                packageName))
-        detail_name.text = titleValue
+
+//        // Set up View
+        mRecyclerView.addItemDecoration(
+                GridSpacingItemDecoration(
+                        MainActivity.NB_COLUMNS,
+                        resources.getDimensionPixelSize(R.dimen.default_margin),
+                        true,
+                        0))
+
+        mRecyclerView.setHasFixedSize(true)
+        mLayoutManager = GridLayoutManager(this, MainActivity.NB_COLUMNS)
+
+        mRecyclerView.layoutManager = mLayoutManager
+        mAdapter = FurnitureAdapter(this,roomId)
+        mRecyclerView.adapter = mAdapter
     }
+
 
 //    @OnClick(R.id.menu_color)
 //    internal fun openColorPicker() {
@@ -70,7 +98,7 @@ class DetailsActivity : AppCompatActivity() {
 //            APIHelper.switchOnWithColor(this@DetailsActivity, list[i], color, client)
 //        }
 //
-//        //(mAdapter as MainAdapter).resetSelectedPos()
+//        //(mAdapter as RoomAdapter).resetSelectedPos()
 //    }
 //
 //    @OnClick(R.id.menu_off)

@@ -26,26 +26,26 @@
         <changeClipBounds />
         <changeImageTransform />
     </transitionSet>
-    <transitionSet>
-        <targets>
-            <target android:targetId="@id/detail.name" />
-        </targets>
-        <transition class="com.jejefcgb.homelights.transition.TextResize" />
-        <changeBounds />
-    </transitionSet>
-    <recolor>
-        <targets>
-            <target android:targetId="@android:id/statusBarBackground" />
-            <target android:targetId="@android:id/navigationBarBackground" />
-        </targets>
-    </recolor>
-    <transitionSet>
-        <targets>
-            <target android:targetId="@id/detail.header" />
-        </targets>
-        <changeBounds/>
-        <changeTransform />
-        <changeClipBounds />
-        <changeImageTransform />
-    </transitionSet>
+    <!--<transitionSet>-->
+        <!--<targets>-->
+            <!--<target android:targetId="@id/detail.name" />-->
+        <!--</targets>-->
+        <!--<transition class="com.jejefcgb.homelights.transition.TextResize" />-->
+        <!--<changeBounds />-->
+    <!--</transitionSet>-->
+    <!--<recolor>-->
+        <!--<targets>-->
+            <!--<target android:targetId="@android:id/statusBarBackground" />-->
+            <!--<target android:targetId="@android:id/navigationBarBackground" />-->
+        <!--</targets>-->
+    <!--</recolor>-->
+    <!--<transitionSet>-->
+        <!--<targets>-->
+            <!--<target android:targetId="@id/detail.header" />-->
+        <!--</targets>-->
+        <!--<changeBounds/>-->
+        <!--<changeTransform />-->
+        <!--<changeClipBounds />-->
+        <!--<changeImageTransform />-->
+    <!--</transitionSet>-->
 </transitionSet>

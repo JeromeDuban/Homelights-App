@@ -4,17 +4,23 @@ import com.squareup.moshi.Json
 
 class Room {
 
+    @Json(name = "id")
+    var id: Int?= null
     @Json(name = "name")
     var name: String? = null
+    @Json(name = "icon")
+    var icon: String? = null
     @Json(name = "furnitures")
-    var furnitures: List<Furniture> = ArrayList()
-
-
-
-    constructor(name: String?, furnitures: List<Furniture>) {
-        this.name = name
-        this.furnitures = furnitures
-    }
+    var furniture: List<Furniture> = ArrayList()
 
     constructor()
+
+    constructor(id: Int?, name: String?, icon: String?, furniture: List<Furniture>) {
+        this.id = id
+        this.name = name
+        this.icon = icon
+        this.furniture = furniture
+    }
+
+
 }
