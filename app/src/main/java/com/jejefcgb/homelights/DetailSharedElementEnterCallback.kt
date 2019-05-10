@@ -58,9 +58,11 @@ class DetailSharedElementEnterCallback(private val intent: Intent, private val t
 
     override fun onMapSharedElements(names: MutableList<String>, sharedElements: MutableMap<String, View>) {
         removeObsoleteElements(names, sharedElements, mapObsoleteElements(names))
-        mapSharedElement(names, sharedElements, title)
+
         mapSharedElement(names, sharedElements, icon)
-        mapSharedElement(names, sharedElements, background)
+
+//        mapSharedElement(names, sharedElements, title)
+//        mapSharedElement(names, sharedElements, background)
 
     }
 //

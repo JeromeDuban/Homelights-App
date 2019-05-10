@@ -187,11 +187,11 @@ public class TextResize extends Transition {
         AnimatorListenerAdapter listener = new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                textView.getOverlay().remove(drawable);
                 textView.setTextColor(textColors);
                 textView.setHintTextColor(hintColors);
                 textView.setHighlightColor(highlightColor);
                 textView.setLinkTextColor(linkColors);
+                textView.getOverlay().remove(drawable);
             }
 
             @Override
