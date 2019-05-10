@@ -5,10 +5,9 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,7 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         internal var mDetails: TextView
         internal var mIcon: ImageView
         internal var mBackground: View
-        internal var mSwitch : Switch
+        internal var mButton : ImageButton
 
 
         init {
@@ -35,7 +34,7 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
             mIcon = v.room_icon
             mDetails = v.room_details
             mBackground = v.room_background
-            mSwitch = v.room_switch
+            mButton = v.room_button
         }
 
         override fun onClick(v: View) {
@@ -90,8 +89,7 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         holder.mTitle.text = room.name
         holder.mIcon.setImageResource(mActivity.resources.getIdentifier(room.icon,"mipmap", mActivity.packageName))
         holder.mDetails.text = mActivity.resources.getQuantityString(R.plurals.number_devices, config.rooms[position].furniture.size, config.rooms[position].furniture.size)
-        holder.mSwitch.setOnCheckedChangeListener { _, _
-            ->  Toast.makeText(mActivity, "A venir", Toast.LENGTH_SHORT).show()}
+
 
     }
 
