@@ -2,11 +2,15 @@ package com.jejefcgb.homelights
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.clans.fab.FloatingActionMenu
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Room
+import com.jejefcgb.homelights.ui.FurnitureAdapter
+import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.activity_details.*
 
 
@@ -16,6 +20,11 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var menu: FloatingActionMenu
 
     lateinit var mRoom : Room
+
+    @BindView(R.id.details_recycler_view)
+    lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapter: FurnitureAdapter
+    private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +42,26 @@ class DetailsActivity : AppCompatActivity() {
 //        setEnterSharedElementCallback(sharedElementCallback)
 
         // Set up header
-        val id = intent?.extras?.get("EXTRA_ID") as Int
-        mRoom = config.rooms.first { x -> x.id == id }
-
+        val roomId = intent?.extras?.get("EXTRA_ID") as Int
+        mRoom = config.rooms.first { x -> x.id == roomId }
         detail_icon.setImageResource(resources.getIdentifier(mRoom.icon,"mipmap", packageName))
         detail_name.text = mRoom.name
+
+
+        // Set up View
+        mRecyclerView.addItemDecoration(
+                GridSpacingItemDecoration(
+                        MainActivity.NB_COLUMNS,
+                        resources.getDimensionPixelSize(R.dimen.default_margin),
+                        true,
+                        0))
+
+        mRecyclerView.setHasFixedSize(true)
+        mLayoutManager = GridLayoutManager(this, MainActivity.NB_COLUMNS)
+
+        mRecyclerView.layoutManager = mLayoutManager
+        mAdapter = FurnitureAdapter(this,roomId)
+        mRecyclerView.adapter = mAdapter
     }
 
 
@@ -73,7 +97,7 @@ class DetailsActivity : AppCompatActivity() {
 //            APIHelper.switchOnWithColor(this@DetailsActivity, list[i], color, client)
 //        }
 //
-//        //(mAdapter as MainAdapter).resetSelectedPos()
+//        //(mAdapter as RoomAdapter).resetSelectedPos()
 //    }
 //
 //    @OnClick(R.id.menu_off)

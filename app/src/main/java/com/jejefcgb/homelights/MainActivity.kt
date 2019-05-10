@@ -13,7 +13,7 @@ import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Home
 import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
-import com.jejefcgb.homelights.ui.MainAdapter
+import com.jejefcgb.homelights.ui.RoomAdapter
 import com.jejefcgb.homelights.utils.APIHelper
 import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,10 +26,10 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    @BindView(R.id.my_recycler_view)
+    @BindView(R.id.main_recycler_view)
     lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mAdapter: MainAdapter
+    private lateinit var mAdapter: RoomAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         mLayoutManager = GridLayoutManager(this, NB_COLUMNS)
 
         mRecyclerView.layoutManager = mLayoutManager
-        mAdapter = MainAdapter(this)
+        mAdapter = RoomAdapter(this)
         mRecyclerView.adapter = mAdapter
 
         // Swipe to refresh
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                                     Furniture("Lit", "192.168.200.1", "ic_object_bed"),
                                     Furniture("Bureau", "192.168.200.1", "ic_object_desk")
                             )),
-                            Room(3, "Chambre de la naze", "ic_object_bed", listOf(
+                            Room(2, "Chambre de la naze", "ic_object_bed", listOf(
                                     Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
                                     Furniture("Support écran", "192.168.200.1", "ic_object_tv")
                             ))))

@@ -17,11 +17,10 @@ import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.R
 import kotlinx.android.synthetic.main.room_item.view.*
 
-class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.Adapter<RoomAdapter.MainViewHolder>() {
 
 
     inner class MainViewHolder internal constructor(v: ConstraintLayout) : RecyclerView.ViewHolder(v), View.OnClickListener {
-
 
         internal var mTitle: TextView
         internal var mDetails: TextView
@@ -92,7 +91,7 @@ class MainAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         holder.mIcon.setImageResource(mActivity.resources.getIdentifier(room.icon,"mipmap", mActivity.packageName))
         holder.mDetails.text = mActivity.resources.getQuantityString(R.plurals.number_devices, config.rooms[position].furniture.size, config.rooms[position].furniture.size)
         holder.mSwitch.setOnCheckedChangeListener { _, _
-            ->  Toast.makeText(mActivity, holder.mTitle.height.toString(), Toast.LENGTH_SHORT).show()}
+            ->  Toast.makeText(mActivity, "A venir", Toast.LENGTH_SHORT).show()}
 
     }
 
