@@ -23,6 +23,7 @@ class DetailsActivity : AppCompatActivity() {
 
     @BindView(R.id.details_recycler_view)
     lateinit var mRecyclerView: RecyclerView
+
     private lateinit var mAdapter: FurnitureAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
@@ -48,7 +49,7 @@ class DetailsActivity : AppCompatActivity() {
         detail_name.text = mRoom.name
 
 
-        // Set up View
+//        // Set up View
         mRecyclerView.addItemDecoration(
                 GridSpacingItemDecoration(
                         MainActivity.NB_COLUMNS,
