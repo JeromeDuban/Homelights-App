@@ -8,13 +8,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.R
+import com.jejefcgb.homelights.databinding.FurnitureItemBinding
 import kotlinx.android.synthetic.main.furniture_item.view.*
 
-class FurnitureAdapter internal constructor(val mActivity: Activity, val roomId:Int) : RecyclerView.Adapter<FurnitureAdapter.MainViewHolder>() {
 
+class FurnitureAdapter internal constructor(val mActivity: Activity, val roomId: Int) : RecyclerView.Adapter<FurnitureAdapter.MainViewHolder>() {
+
+
+    private var mLayoutInflater: LayoutInflater = LayoutInflater.from(mActivity)
 
     inner class MainViewHolder internal constructor(v: ConstraintLayout) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
@@ -31,14 +36,17 @@ class FurnitureAdapter internal constructor(val mActivity: Activity, val roomId:
 
             if (adapterPosition == RecyclerView.NO_POSITION) return
 
-            Toast.makeText(mActivity,config.rooms[roomId].furniture[adapterPosition].name,Toast.LENGTH_SHORT).show()
+            Toast.makeText(mActivity, config.rooms[roomId].furniture[adapterPosition].name, Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MainViewHolder {
         val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.furniture_item, parent, false) as ConstraintLayout
+                .inflate(com.jejefcgb.homelights.R.layout.furniture_item, parent, false) as ConstraintLayout
+
+
+        val binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.furniture_item, parent, false) as FurnitureItemBinding
 
         return MainViewHolder(v)
     }
@@ -47,7 +55,7 @@ class FurnitureAdapter internal constructor(val mActivity: Activity, val roomId:
 
         val furniture = config.rooms[roomId].furniture[position]
         holder.mTitle.text = furniture.name
-        holder.mIcon.setImageResource(mActivity.resources.getIdentifier(furniture.icon,"mipmap", mActivity.packageName))
+        holder.mIcon.setImageResource(mActivity.resources.getIdentifier(furniture.icon, "mipmap", mActivity.packageName))
 
     }
 
