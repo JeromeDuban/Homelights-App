@@ -7,8 +7,14 @@ class HomeLightsApplication : Application() {
 
     companion object {
 
-        var config : Home = Home()
+        var config: Home = Home()
+        lateinit var PACKAGE_NAME: String
     }
 
+
+    override fun onCreate() {
+        super.onCreate()
+        PACKAGE_NAME = applicationContext.packageName
+    }
 }
 

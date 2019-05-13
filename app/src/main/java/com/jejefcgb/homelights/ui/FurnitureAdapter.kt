@@ -4,63 +4,33 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.R
+import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.databinding.FurnitureItemBinding
-import kotlinx.android.synthetic.main.furniture_item.view.*
 
 
-class FurnitureAdapter internal constructor(val mActivity: Activity, val roomId: Int) : RecyclerView.Adapter<FurnitureAdapter.MainViewHolder>() {
+class FurnitureAdapter (val mActivity: Activity, val roomId: Int) : RecyclerView.Adapter<FurnitureAdapter.FurnitureViewHolder>() {
 
 
-    private var mLayoutInflater: LayoutInflater = LayoutInflater.from(mActivity)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FurnitureViewHolder {
 
-    inner class MainViewHolder internal constructor(v: ConstraintLayout) : RecyclerView.ViewHolder(v), View.OnClickListener {
+        return FurnitureViewHolder(LayoutInflater.from(mActivity).inflate(R.layout.furniture_item,parent,false))
+    }
 
-        internal var mTitle: TextView
-        internal var mIcon: ImageView
+    override fun getItemCount(): Int = config.rooms[roomId].furniture.size
 
-        init {
-            v.setOnClickListener(this)
-            mTitle = v.furniture_name
-            mIcon = v.furniture_icon
-        }
+    override fun onBindViewHolder(holder: FurnitureViewHolder, position: Int) = holder.bind(config.rooms[roomId].furniture[position]) //FIXME : list of data
 
-        override fun onClick(v: View) {
 
-            if (adapterPosition == RecyclerView.NO_POSITION) return
+    inner class FurnitureViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+        private val binding: FurnitureItemBinding = DataBindingUtil.bind(view)!!
 
-            Toast.makeText(mActivity, config.rooms[roomId].furniture[adapterPosition].name, Toast.LENGTH_SHORT).show()
+        fun bind(furniture : Furniture) {
+            binding.furniture = furniture
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MainViewHolder {
-        val v = LayoutInflater.from(parent.context)
-                .inflate(com.jejefcgb.homelights.R.layout.furniture_item, parent, false) as ConstraintLayout
-
-
-        val binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.furniture_item, parent, false) as FurnitureItemBinding
-
-        return MainViewHolder(v)
-    }
-
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-
-        val furniture = config.rooms[roomId].furniture[position]
-        holder.mTitle.text = furniture.name
-        holder.mIcon.setImageResource(mActivity.resources.getIdentifier(furniture.icon, "mipmap", mActivity.packageName))
-
-    }
-
-    override fun getItemCount(): Int {
-        return config.rooms[roomId].furniture.size
-    }
-
 }
+
