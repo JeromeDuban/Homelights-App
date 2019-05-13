@@ -15,13 +15,9 @@ import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
 import com.jejefcgb.homelights.ui.RoomAdapter
 import com.jejefcgb.homelights.utils.APIHelper
-import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,51 +68,71 @@ class MainActivity : AppCompatActivity() {
                 .url("${APIHelper.API_ADDRESS}/config")
                 .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                this@MainActivity.runOnUiThread {
-                    swipe_container.isRefreshing = false
+        //FIXME :  TO REMOVE
+        swipe_container.isRefreshing = false
+        config = Home("home", listOf(
+                Room(0, "Salon", "ic_object_tv", listOf(
+                        Furniture("Bar", "192.168.200.1", "ic_object_bar")
+                )),
+                Room(1, "Chambre du naze", "ic_object_bed", listOf(
+                        Furniture("Lit", "192.168.200.1", "ic_object_bed"),
+                        Furniture("Bureau", "192.168.200.1", "ic_object_desk")
+                )),
+                Room(2, "Chambre de la naze", "ic_object_bed", listOf(
+                        Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
+                        Furniture("Support écran", "192.168.200.1", "ic_object_tv")
+                ))))
 
-                    toast("Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi")
+        mAdapter.notifyDataSetChanged()
 
-                    config = Home("home", listOf(
-                            Room(0, "Salon", "ic_object_tv", listOf(
-                                    Furniture("Bar", "192.168.200.1", "ic_object_bar")
-                            )),
-                            Room(1, "Chambre du naze", "ic_object_bed", listOf(
-                                    Furniture("Lit", "192.168.200.1", "ic_object_bed"),
-                                    Furniture("Bureau", "192.168.200.1", "ic_object_desk")
-                            )),
-                            Room(2, "Chambre de la naze", "ic_object_bed", listOf(
-                                    Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
-                                    Furniture("Support écran", "192.168.200.1", "ic_object_tv")
-                            ))))
+        Toast.makeText(this@MainActivity, "FIXME",Toast.LENGTH_SHORT).show()
+        // FIXME : END TO REMOVE
 
-                    mAdapter.notifyDataSetChanged()
-                }
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                this@MainActivity.runOnUiThread {
-                    swipe_container.isRefreshing = false
-
-                    if (response.isSuccessful) {
-
-                        val jsonAdapter = Moshi.Builder().build().adapter(Home::class.java)
-                        val json = response.body()?.string()
-
-                        HomeLightsApplication.config = jsonAdapter.fromJson(json as String) as Home
-                        mAdapter.notifyDataSetChanged()
-
-                        toast("Configuration chargée")
-                    } else {
-                        val body = response.body()?.string()
-                        toast("Une erreur est survenue lors de la récupération de la configuration : (${response.code()}) > $body")
-                    }
-                }
-            }
-        })
+//        client.newCall(request).enqueue(object : okhttp3.Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                this@MainActivity.runOnUiThread {
+//                    swipe_container.isRefreshing = false
+//
+//                    toast("Impossible de récupérer la configuration. Veuillez vérifier votre réseau wifi")
+//
+//                    config = Home("home", listOf(
+//                            Room(0, "Salon", "ic_object_tv", listOf(
+//                                    Furniture("Bar", "192.168.200.1", "ic_object_bar")
+//                            )),
+//                            Room(1, "Chambre du naze", "ic_object_bed", listOf(
+//                                    Furniture("Lit", "192.168.200.1", "ic_object_bed"),
+//                                    Furniture("Bureau", "192.168.200.1", "ic_object_desk")
+//                            )),
+//                            Room(2, "Chambre de la naze", "ic_object_bed", listOf(
+//                                    Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
+//                                    Furniture("Support écran", "192.168.200.1", "ic_object_tv")
+//                            ))))
+//
+//                    mAdapter.notifyDataSetChanged()
+//                }
+//            }
+//
+//            @Throws(IOException::class)
+//            override fun onResponse(call: Call, response: Response) {
+//                this@MainActivity.runOnUiThread {
+//                    swipe_container.isRefreshing = false
+//
+//                    if (response.isSuccessful) {
+//
+//                        val jsonAdapter = Moshi.Builder().build().adapter(Home::class.java)
+//                        val json = response.body()?.string()
+//
+//                        HomeLightsApplication.config = jsonAdapter.fromJson(json as String) as Home
+//                        mAdapter.notifyDataSetChanged()
+//
+//                        toast("Configuration chargée")
+//                    } else {
+//                        val body = response.body()?.string()
+//                        toast("Une erreur est survenue lors de la récupération de la configuration : (${response.code()}) > $body")
+//                    }
+//                }
+//            }
+//        })
     }
 
     private fun toast(message: String) {

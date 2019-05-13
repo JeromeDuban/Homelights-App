@@ -80,6 +80,8 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.room_item, parent, false) as ConstraintLayout
 
+//        val v = ListItemBinding
+
         return MainViewHolder(v)
     }
 
