@@ -17,7 +17,7 @@ class Room {
     @NonNull
     @Json(name = "furnitures")
     var furniture: List<Furniture> = ArrayList()
-    
+
 
     constructor()
 
