@@ -10,7 +10,7 @@ import com.github.clans.fab.FloatingActionMenu
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_FURNITURE
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Room
-import com.jejefcgb.homelights.ui.FurnitureAdapter
+import com.jejefcgb.homelights.ui.HomeAdapter
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.activity_details.*
 
@@ -25,7 +25,7 @@ class DetailsActivity : AppCompatActivity() {
     @BindView(R.id.details_recycler_view)
     lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mAdapter: FurnitureAdapter
+    private lateinit var mAdapter: HomeAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class DetailsActivity : AppCompatActivity() {
         mLayoutManager = GridLayoutManager(this, MainActivity.NB_COLUMNS)
 
         mRecyclerView.layoutManager = mLayoutManager
-        mAdapter = FurnitureAdapter(this, config.rooms.first { x -> x.id == roomId}.furniture, TYPE_FURNITURE)
+        mAdapter = HomeAdapter(this, config.rooms.first { x -> x.id == roomId}.furniture, TYPE_FURNITURE)
         mRecyclerView.adapter = mAdapter
     }
 

@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_ROOM
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Home
 import com.jejefcgb.homelights.data.model.Room
+import com.jejefcgb.homelights.ui.HomeAdapter
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
-import com.jejefcgb.homelights.ui.RoomAdapter
 import com.jejefcgb.homelights.utils.APIHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     @BindView(R.id.main_recycler_view)
     lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mAdapter: RoomAdapter
+    private lateinit var mAdapter: HomeAdapter
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
 
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         mLayoutManager = GridLayoutManager(this, NB_COLUMNS)
 
         mRecyclerView.layoutManager = mLayoutManager
-        mAdapter = RoomAdapter(this)
+        mAdapter = HomeAdapter(this,config.rooms, TYPE_ROOM)
         mRecyclerView.adapter = mAdapter
 
         // Swipe to refresh
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                         Furniture("Support écran", "192.168.200.1", "ic_object_tv")
                 ))))
 
+        mAdapter.data = config.rooms
         mAdapter.notifyDataSetChanged()
 
         Toast.makeText(this@MainActivity, "FIXME",Toast.LENGTH_SHORT).show()
