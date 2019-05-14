@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +24,7 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
         internal var mDetails: TextView
         internal var mIcon: ImageView
         internal var mBackground: View
-        internal var mButton : ImageButton
+        //internal var mButton : ImageButton
 
 
         init {
@@ -34,7 +33,7 @@ class RoomAdapter internal constructor(val mActivity: Activity) : RecyclerView.A
             mIcon = v.room_icon
             mDetails = v.room_details
             mBackground = v.room_background
-            mButton = v.room_button
+           // mButton = v.room_button
         }
 
         override fun onClick(v: View) {

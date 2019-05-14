@@ -9,6 +9,8 @@ class HomeLightsApplication : Application() {
 
         var config: Home = Home()
         lateinit var PACKAGE_NAME: String
+         var TYPE_ROOM : Int = 0
+         var TYPE_FURNITURE : Int = 1
     }
 
 

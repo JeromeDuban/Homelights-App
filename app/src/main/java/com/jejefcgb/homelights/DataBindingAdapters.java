@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
+@SuppressWarnings("unused")
 public class DataBindingAdapters {
 
     @BindingAdapter("android:src")

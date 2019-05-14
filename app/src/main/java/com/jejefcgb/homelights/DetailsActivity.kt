@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.clans.fab.FloatingActionMenu
+import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_FURNITURE
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.ui.FurnitureAdapter
@@ -61,7 +62,7 @@ class DetailsActivity : AppCompatActivity() {
         mLayoutManager = GridLayoutManager(this, MainActivity.NB_COLUMNS)
 
         mRecyclerView.layoutManager = mLayoutManager
-        mAdapter = FurnitureAdapter(this,roomId)
+        mAdapter = FurnitureAdapter(this, config.rooms.first { x -> x.id == roomId}.furniture, TYPE_FURNITURE)
         mRecyclerView.adapter = mAdapter
     }
 
