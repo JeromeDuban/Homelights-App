@@ -119,13 +119,14 @@ class DetailsActivity : AppCompatActivity() {
             menu.close(true)
         }
 
-        val client = OkHttpClient() // FIXME : extract
+        val client = OkHttpClient() // FIXME : extract client
 
         for (i in mAdapter.selectedItems) {
             APIHelper.switchOff(this@DetailsActivity, mRoom.furniture.first{x -> x.id == i}, client)
         }
     }
 
+    // FIXMe : extract update and List
     private val cb = object : Callback() {
         override fun update(value: List<Int>) {
 

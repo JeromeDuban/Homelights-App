@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_ROOM
+import com.jejefcgb.homelights.R
 import com.jejefcgb.homelights.RoomItemListener
 import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.databinding.FurnitureItemBinding
 import com.jejefcgb.homelights.databinding.RoomItemBinding
+import com.jejefcgb.homelights.utils.Utils
 
 
 class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val dataType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -48,6 +51,13 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
                 updateSelectedItems(position, furniture.id as Int)
             }
 
+
+            if (selectedItems.contains(furniture.id))
+                Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.tile_selected))
+            else
+                Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.colorPrimary))
+
+
         }
     }
 
@@ -71,10 +81,8 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
         } else {
             selectedItems.add(itemId)
         }
-
+        notifyDataSetChanged() //TODO : can probably be improved
         Toast.makeText(mActivity, selectedItems.toString(), Toast.LENGTH_SHORT).show()
-
-        //TODO update layout at position
     }
 
 }
