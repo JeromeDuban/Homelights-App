@@ -1,4 +1,4 @@
-package com.jejefcgb.homelights
+package com.jejefcgb.homelights.transition
 
 import android.app.SharedElementCallback
 import android.content.Intent

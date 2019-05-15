@@ -17,6 +17,7 @@ import com.jejefcgb.homelights.databinding.RoomItemBinding
 
 class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val dataType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    var selectedItems : MutableList<Int> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (dataType) {
@@ -34,7 +35,7 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             }
 
 
-    inner class FurnitureViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FurnitureViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val binding: FurnitureItemBinding = DataBindingUtil.bind(view)!!
 
         fun bind(data: List<Any>, position: Int) {
@@ -42,7 +43,11 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             // Binding
             binding.furniture = furniture
             // Listeners
-            binding.furnitureIcon.setOnClickListener { Toast.makeText(mActivity, furniture.name, Toast.LENGTH_SHORT) .show()}
+            view.setOnClickListener {
+                // Update selected furnitures
+                updateSelectedItems(position, furniture.id as Int)
+            }
+
         }
     }
 
@@ -58,7 +63,18 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             view.setOnClickListener (RoomItemListener(mActivity, binding.roomIcon, room))
 
         }
+    }
 
+    private fun updateSelectedItems(position: Int, itemId: Int) {
+        if (selectedItems.contains(itemId)) {
+            selectedItems.remove(Integer.valueOf(itemId))
+        } else {
+            selectedItems.add(itemId)
+        }
+
+        Toast.makeText(mActivity, selectedItems.toString(), Toast.LENGTH_SHORT).show()
+
+        //TODO update layout at position
     }
 
 }

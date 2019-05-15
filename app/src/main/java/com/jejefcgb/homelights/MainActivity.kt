@@ -13,8 +13,8 @@ import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Home
 import com.jejefcgb.homelights.data.model.Room
-import com.jejefcgb.homelights.ui.HomeAdapter
 import com.jejefcgb.homelights.ui.GridSpacingItemDecoration
+import com.jejefcgb.homelights.ui.HomeAdapter
 import com.jejefcgb.homelights.utils.APIHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
+        // Set up recycler view
         mRecyclerView.addItemDecoration(
                 GridSpacingItemDecoration(
                         NB_COLUMNS,
@@ -73,15 +74,15 @@ class MainActivity : AppCompatActivity() {
         swipe_container.isRefreshing = false
         config = Home("home", listOf(
                 Room(0, "Salon", "ic_object_tv", listOf(
-                        Furniture("Bar", "192.168.200.1", "ic_object_bar")
+                        Furniture(0,"Bar", "192.168.200.1", "ic_object_bar")
                 )),
                 Room(1, "Chambre du naze", "ic_object_bed", listOf(
-                        Furniture("Lit", "192.168.200.1", "ic_object_bed"),
-                        Furniture("Bureau", "192.168.200.1", "ic_object_desk")
+                        Furniture(1,"Lit", "192.168.200.1", "ic_object_bed"),
+                        Furniture(2,"Bureau", "192.168.200.1", "ic_object_desk")
                 )),
                 Room(2, "Chambre de la naze", "ic_object_bed", listOf(
-                        Furniture("Etagère", "192.168.200.1", "ic_object_shelf"),
-                        Furniture("Support écran", "192.168.200.1", "ic_object_tv")
+                        Furniture(3,"Etagère", "192.168.200.1", "ic_object_shelf"),
+                        Furniture(4,"Support écran", "192.168.200.1", "ic_object_tv")
                 ))))
 
         mAdapter.data = config.rooms
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 //                        val jsonAdapter = Moshi.Builder().build().adapter(Home::class.java)
 //                        val json = response.body()?.string()
 //
-//                        HomeLightsApplication.config = jsonAdapter.fromJson(json as String) as Home
+//                        HomeLightsApplication.config = jsonAdapter.fromJson(json as String) as Home //TODO : vérifier comportement si un champ manquant
 //                        mAdapter.notifyDataSetChanged()
 //
 //                        toast("Configuration chargée")
