@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jejefcgb.homelights.DetailsActivity
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_ROOM
 import com.jejefcgb.homelights.R
 import com.jejefcgb.homelights.RoomItemListener
@@ -20,7 +21,8 @@ import com.jejefcgb.homelights.utils.Utils
 
 class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val dataType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedItems : MutableList<Int> = ArrayList()
+    // Create list with custom setter
+    var selectedItems : MutableList<Furniture> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (dataType) {
@@ -48,11 +50,10 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             // Listeners
             view.setOnClickListener {
                 // Update selected furnitures
-                updateSelectedItems(position, furniture.id as Int)
+                updateSelectedItems(furniture)
             }
 
-
-            if (selectedItems.contains(furniture.id))
+            if (selectedItems.contains(furniture))
                 Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.tile_selected))
             else
                 Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.colorPrimary))
@@ -69,20 +70,23 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             // Binding
             binding.room = room
             // Listeners
-            binding.roomButton.setOnClickListener{Toast.makeText(mActivity, "LIGHT", Toast.LENGTH_SHORT).show()}
+            binding.roomButton.setOnClickListener{Toast.makeText(mActivity, "Fonctionnalité indisponible", Toast.LENGTH_SHORT).show()} //TODO
             view.setOnClickListener (RoomItemListener(mActivity, binding.roomIcon, room))
 
         }
     }
 
-    private fun updateSelectedItems(position: Int, itemId: Int) {
-        if (selectedItems.contains(itemId)) {
-            selectedItems.remove(Integer.valueOf(itemId))
+    private fun updateSelectedItems(item: Furniture) {
+        if (selectedItems.contains(item)) {
+            selectedItems.remove(item)
         } else {
-            selectedItems.add(itemId)
+            selectedItems.add(item)
         }
+
+        (mActivity as DetailsActivity).toggleMenu()
+
         notifyDataSetChanged() //TODO : can probably be improved
-        Toast.makeText(mActivity, selectedItems.toString(), Toast.LENGTH_SHORT).show()
+
     }
 
 }
