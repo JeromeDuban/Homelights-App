@@ -5,18 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jejefcgb.homelights.DetailsActivity
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_ROOM
+import com.jejefcgb.homelights.R
 import com.jejefcgb.homelights.RoomItemListener
 import com.jejefcgb.homelights.data.model.Furniture
 import com.jejefcgb.homelights.data.model.Room
 import com.jejefcgb.homelights.databinding.FurnitureItemBinding
 import com.jejefcgb.homelights.databinding.RoomItemBinding
+import com.jejefcgb.homelights.utils.Utils
 
 
 class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val dataType: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    // Create list with custom setter
+    var selectedItems : MutableList<Furniture> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
             when (dataType) {
@@ -34,7 +40,7 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             }
 
 
-    inner class FurnitureViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FurnitureViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val binding: FurnitureItemBinding = DataBindingUtil.bind(view)!!
 
         fun bind(data: List<Any>, position: Int) {
@@ -42,7 +48,17 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             // Binding
             binding.furniture = furniture
             // Listeners
-            binding.furnitureIcon.setOnClickListener { Toast.makeText(mActivity, furniture.name, Toast.LENGTH_SHORT) .show()}
+            view.setOnClickListener {
+                // Update selected furnitures
+                updateSelectedItems(furniture)
+            }
+
+            if (selectedItems.contains(furniture))
+                Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.tile_selected))
+            else
+                Utils.setBackgroundTintAndKeepPadding(view, ContextCompat.getDrawable(mActivity, R.drawable.rounded_corners)!!, ContextCompat.getColor(mActivity,R.color.colorPrimary))
+
+
         }
     }
 
@@ -54,10 +70,22 @@ class HomeAdapter(val mActivity: Activity, var data: List<Any>, private val data
             // Binding
             binding.room = room
             // Listeners
-            binding.roomButton.setOnClickListener{Toast.makeText(mActivity, "LIGHT", Toast.LENGTH_SHORT).show()}
+            binding.roomButton.setOnClickListener{Toast.makeText(mActivity, "Fonctionnalité indisponible", Toast.LENGTH_SHORT).show()} //TODO
             view.setOnClickListener (RoomItemListener(mActivity, binding.roomIcon, room))
 
         }
+    }
+
+    private fun updateSelectedItems(item: Furniture) {
+        if (selectedItems.contains(item)) {
+            selectedItems.remove(item)
+        } else {
+            selectedItems.add(item)
+        }
+
+        (mActivity as DetailsActivity).toggleMenu()
+
+        notifyDataSetChanged() //TODO : can probably be improved
 
     }
 

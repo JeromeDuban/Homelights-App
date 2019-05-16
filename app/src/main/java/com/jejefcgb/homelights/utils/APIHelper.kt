@@ -18,7 +18,8 @@ internal class APIHelper {
         const val API_ADDRESS : String = "http://192.168.1.114:8080/api"
 
         fun switchOnWithColor(context: Activity, furniture: Furniture, color: Int, client: OkHttpClient) {
-
+           
+            // TODO : check if furniture not null
             val url = String.format("$API_ADDRESS/magic/%1\$s/%2\$d/%3\$d/%4\$d",
                     furniture.ip,
                     Color.red(color),
@@ -42,7 +43,7 @@ internal class APIHelper {
         }
 
         fun switchOff(context: Activity, furniture: Furniture, client: OkHttpClient) {
-
+            // TODO : check if furniture not null
             val url = String.format("$API_ADDRESS/magic/%1\$s/0/0/0",
                     furniture.ip)
 

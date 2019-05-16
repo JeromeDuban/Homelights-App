@@ -2,7 +2,12 @@ package com.jejefcgb.homelights.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
+import android.view.View
+
 
 object Utils {
 
@@ -42,6 +47,49 @@ object Utils {
      */
     fun convertPixelsToDp(px: Float, context: Context): Float {
         return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    /**
+     * Sets the background for a view while preserving its current padding. If the background drawable
+     * has its own padding, that padding will be added to the current padding.
+     *
+     * @param view View to receive the new background.
+     * @param backgroundDrawable Drawable to set as new background.
+     */
+    fun setBackgroundAndKeepPadding(view: View, backgroundDrawable: Drawable) {
+        val drawablePadding = Rect()
+        backgroundDrawable.getPadding(drawablePadding)
+        val top = view.paddingTop + drawablePadding.top
+        val left = view.paddingLeft + drawablePadding.left
+        val right = view.paddingRight + drawablePadding.right
+        val bottom = view.paddingBottom + drawablePadding.bottom
+
+        view.background = backgroundDrawable
+        view.setPadding(left, top, right, bottom)
+    }
+
+
+    /**
+     * Sets the background tint for a view while preserving its current padding. If the background drawable
+     * has its own padding, that padding will be added to the current padding.
+     *
+     * @param view View to receive the new background.
+     * @param backgroundDrawable Drawable to set as new background.
+     */
+    fun setBackgroundTintAndKeepPadding(view: View, backgroundDrawable: Drawable, color: Int) {
+        val drawablePadding = Rect()
+        backgroundDrawable.getPadding(drawablePadding)
+        val top = view.paddingTop + drawablePadding.top
+        val left = view.paddingLeft + drawablePadding.left
+        val right = view.paddingRight + drawablePadding.right
+        val bottom = view.paddingBottom + drawablePadding.bottom
+
+        backgroundDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        view.background = backgroundDrawable
+
+        view.setPadding(left, top, right, bottom)
+
+
     }
 
 }
