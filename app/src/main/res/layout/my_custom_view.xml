@@ -27,56 +27,45 @@
         android:layout_marginBottom="16dp"
         android:background="@android:color/white"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/custom_spinner"
         app:layout_constraintTop_toBottomOf="@+id/custom_room_titile"
         tools:layout_editor_absoluteX="57dp" />
 
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/custom_et_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Nom de la pièce"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/custom_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/custom_spinner"
+        app:layout_constraintTop_toTopOf="@+id/custom_spinner" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <!--<ImageView-->
+    <!--android:id="@+id/imageView2"-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:src="@mipmap/ic_object_bar"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/view" />-->
+
+    <Spinner
+        android:id="@+id/custom_spinner"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_object_bar"
+        android:background="@drawable/md_transparent"
+        android:popupBackground="@color/colorPrimary"
+        android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="Ajouter"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="Annuler"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
