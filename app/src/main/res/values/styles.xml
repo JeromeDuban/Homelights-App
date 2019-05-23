@@ -10,6 +10,8 @@
 
         <!--Matérial dialogs-->
         <item name="md_color_button_text">@color/colorAccent</item>
+        <item name="md_corner_radius">@dimen/corner_radius_dialog</item>
+        <item name="colorBackgroundFloating">@color/colorPrimary</item>
 
         <!--transitions-->
         <item name="android:windowSharedElementsUseOverlay">false</item>
@@ -20,5 +22,4 @@
             @transition/shared_main_detail
         </item>
     </style>
-
 </resources>

@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.TYPE_ROOM
 import com.jejefcgb.homelights.HomeLightsApplication.Companion.config
 import com.jejefcgb.homelights.data.model.Furniture
@@ -74,14 +77,14 @@ class MainActivity : AppCompatActivity() {
         swipe_container.isRefreshing = false
         config = Home("home", listOf(
                 Room(0, "Salon", "ic_object_tv", listOf(
-                        Furniture(0,"Bar", "192.168.200.1", "ic_object_bar")
+                        Furniture(0,"Verres", "192.168.1.200", "ic_object_glasses")
                 )),
                 Room(1, "Chambre du naze", "ic_object_bed", listOf(
                         Furniture(1,"Lit", "192.168.200.1", "ic_object_bed"),
                         Furniture(2,"Bureau", "192.168.200.1", "ic_object_desk")
                 )),
                 Room(2, "Chambre de la naze", "ic_object_bed", listOf(
-                        Furniture(3,"Etagère", "192.168.200.1", "ic_object_shelf"),
+                        Furniture(3,"Etagère", "192.168.1.201", "ic_object_shelf"),
                         Furniture(4,"Support écran", "192.168.200.1", "ic_object_tv")
                 ))))
 
@@ -136,6 +139,13 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 //        })
+    }
+
+    @OnClick(R.id.main_fab)
+    fun addRoom(){
+        MaterialDialog(this).show {
+            customView(R.layout.my_custom_view)
+        }
     }
 
     private fun toast(message: String) {
